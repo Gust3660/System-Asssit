@@ -4,13 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
     const togglePassword = document.getElementById('toggle-password');
-    const eyeIcon = document.getElementById('eye-icon');
     const loginMessage = document.getElementById('login-message');
     const currentTimeElement = document.getElementById('current-time');
     const currentDateElement = document.getElementById('current-date');
 
-    // Credenciales válidas
-    const validCredentials = {
+    // Credenciales de admin
+    const adminCredentials = {
         username: 'admin',
         password: '123'
     };
@@ -21,15 +20,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mostrar/ocultar contraseña
     togglePassword.addEventListener('click', function(e) {
         e.preventDefault();
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
         
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            eyeIcon.src = "img/eye-open.png";
-            eyeIcon.alt = "Ocultar contraseña";
+        const eyeIcon = this.querySelector('img');
+        if (type === 'text') {
+            eyeIcon.src = 'img/eye-closed.png';
+            eyeIcon.alt = 'Ocultar contraseña';
         } else {
-            passwordInput.type = "password";
-            eyeIcon.src = "img/eye-closed.png";
-            eyeIcon.alt = "Mostrar contraseña";
+            eyeIcon.src = 'img/eye-open.png';
+            eyeIcon.alt = 'Mostrar contraseña';
         }
     });
 
@@ -40,18 +40,47 @@ document.addEventListener('DOMContentLoaded', function() {
         const username = usernameInput.value;
         const password = passwordInput.value;
         
-        // Guardar datos antes de validar
+        // Guardar username antes de validar
         saveData(username);
         
-        if (username === validCredentials.username && password === validCredentials.password) {
-            showMessage('Credenciales correctas. Redirigiendo...', 'success');
-            setTimeout(() => {
-                window.location.href = 'admin.html';
-            }, 1500);
+        // Verificar si es admin
+        if (username === adminCredentials.username && password === adminCredentials.password) {
+            handleSuccessfulLogin({ username: 'admin', userType: 'admin' });
+            return;
+        }
+        
+        // Verificar usuarios registrados
+        const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+        const user = users.find(u => u.username === username && u.password === password);
+        
+        if (user) {
+            handleSuccessfulLogin(user);
         } else {
             showMessage('Credenciales incorrectas', 'error');
         }
     });
+
+    // Función para manejar login exitoso
+    function handleSuccessfulLogin(user) {
+        showMessage('Credenciales correctas. Redirigiendo...', 'success');
+        
+        // Guardar sesión
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        
+        // Redirigir según tipo de usuario
+        setTimeout(() => {
+            switch(user.userType) {
+                case 'admin':
+                    window.location.href = 'admin.html';
+                    break;
+                case 'teacher':
+                    window.location.href = 'teacher.html';
+                    break;
+                default:
+                    window.location.href = 'student.html';
+            }
+        }, 1500);
+    }
 
     // Función para mostrar mensajes
     function showMessage(message, type) {
