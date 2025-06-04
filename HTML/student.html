@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de visualización de asistencia para alumnos">
+    <title>Sistema de Asistencia - Alumno</title>
+    <link rel="stylesheet" href="src/styles/student.css">
+</head>
+<body>
+    <!-- Barra superior con fecha y hora -->
+    <div class="top-bar">
+        <div class="container">
+            <div id="datetime" class="datetime"></div>
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <header class="main-header">
+            <div class="container">
+                <h1>Sistema de Asistencia</h1>
+                <div class="student-info">
+                    <h2 id="student-name">Nombre del Alumno</h2>
+                    <p id="student-id">Matrícula: </p>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content container">
+            <section class="filters-section">
+                <h2 class="visually-hidden">Filtros de búsqueda</h2>
+                <form class="filters-form">
+                    <div class="filter-group">
+                        <label for="period">Periodo:</label>
+                        <select id="period" aria-label="Seleccionar periodo académico">
+                            <option value="all">Todos</option>
+                            <option value="2024-2">2024-2</option>
+                            <option value="2025-1" selected>2025-1</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="subject">Materia:</label>
+                        <select id="subject" aria-label="Seleccionar materia">
+                            <option value="all">Todas</option>
+                            <!-- Opciones se llenarán con JavaScript -->
+                        </select>
+                    </div>
+                </form>
+            </section>
+
+            <section class="attendance-summary" aria-labelledby="summary-heading">
+                <h2 id="summary-heading">Resumen de Asistencia</h2>
+                <div class="summary-cards">
+                    <article class="card">
+                        <span class="card-value" id="total-classes">0</span>
+                        <span class="card-label">Clases Totales</span>
+                    </article>
+                    <article class="card">
+                        <span class="card-value" id="attended-classes">0</span>
+                        <span class="card-label">Asistencias</span>
+                    </article>
+                    <article class="card">
+                        <span class="card-value" id="missed-classes">0</span>
+                        <span class="card-label">Faltas</span>
+                    </article>
+                    <article class="card">
+                        <span class="card-value" id="attendance-percentage">0%</span>
+                        <span class="card-label">Porcentaje</span>
+                    </article>
+                </div>
+            </section>
+
+            <section class="attendance-details" aria-labelledby="details-heading">
+                <h2 id="details-heading">Detalle por Materia</h2>
+                <div class="table-responsive">
+                    <table id="attendance-table">
+                        <caption class="visually-hidden">Detalle de asistencia por materia</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Materia</th>
+                                <th scope="col">Clases</th>
+                                <th scope="col">Asistencias</th>
+                                <th scope="col">Faltas</th>
+                                <th scope="col">% Asistencia</th>
+                                <th scope="col">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Datos se llenarán con JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <footer class="main-footer">
+            <div class="container">
+                <p>&copy; <span id="current-year"></span> ISIC 3402 - Sistema de Asistencia para Alumnos</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="src/js/student.js"></script>
+</body>
+</html>

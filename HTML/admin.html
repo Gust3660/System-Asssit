@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Administrativo Escolar - ISIC 3402</title>
+    <link rel="stylesheet" href="src/styles/admin.css">
+    <link rel="stylesheet" href="src/styles/responsive.css">
+</head>
+<body>
+    <header class="header-bar">
+        <div class="status-bar">
+            <div class="system-info">
+                <span id="current-date"></span>
+                <span id="current-time"></span>
+            </div>
+            <div class="system-status">
+                <div class="status-indicator"></div>
+                <span>Sistema activo</span>
+            </div>
+        </div>
+        <h1>Sistema Administrativo Escolar</h1>
+    </header>
+
+    <nav class="main-nav">
+        <ul>
+            <li><a href="#alumnos" class="nav-link active">Alumnos</a></li>
+            <li><a href="#horarios" class="nav-link">Horarios</a></li>
+            <li><a href="#profesores" class="nav-link">Profesores</a></li>
+            <li><a href="#grados" class="nav-link">Grados</a></li>
+            <li><a href="#grupos" class="nav-link">Grupos</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="alumnos" class="content-section active-section">
+            <h2>Administración de Alumnos</h2>
+            <div class="controls">
+                <button id="add-student" class="btn btn-primary">Agregar Alumno</button>
+                <div class="search-box">
+                    <input type="text" id="student-search" placeholder="Buscar alumno...">
+                    <button class="btn btn-search">Buscar</button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table id="students-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Grado</th>
+                            <th>Grupo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Datos de alumnos se cargarán aquí con JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="horarios" class="content-section">
+            <h2>Administración de Horarios</h2>
+            <div class="controls">
+                <select id="grade-select">
+                    <option value="">Seleccione un grado</option>
+                    <!-- Opciones se cargarán con JS -->
+                </select>
+                <select id="group-select">
+                    <option value="">Seleccione un grupo</option>
+                    <!-- Opciones se cargarán con JS -->
+                </select>
+                <button id="generate-schedule" class="btn btn-primary">Generar Horario</button>
+            </div>
+            <div class="schedule-container">
+                <!-- Horario se generará aquí con JS -->
+            </div>
+        </section>
+
+        <section id="profesores" class="content-section">
+            <h2>Administración de Profesores</h2>
+        </section>
+
+        <section id="grados" class="content-section">
+            <h2>Administración de Grados</h2>
+        </section>
+
+        <section id="grupos" class="content-section">
+            <h2>Administración de Grupos</h2>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="current-year"></span> ISIC 3402 - Todos los derechos reservados</p>
+    </footer>
+
+    <!-- Modal para agregar/editar alumnos -->
+    <div id="student-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 id="modal-title">Agregar Nuevo Alumno</h3>
+            <form id="student-form">
+                <input type="hidden" id="student-id">
+                <div class="form-group">
+                    <label for="student-name">Nombre:</label>
+                    <input type="text" id="student-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="student-lastname">Apellidos:</label>
+                    <input type="text" id="student-lastname" required>
+                </div>
+                <div class="form-group">
+                    <label for="student-grade">Grado:</label>
+                    <select id="student-grade" required>
+                        <!-- Opciones se cargarán con JS -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="student-group">Grupo:</label>
+                    <select id="student-group" required>
+                        <!-- Opciones se cargarán con JS -->
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="src/js/main.js"></script>
+    <script src="src/js/admin.js"></script>
+    <script src="src/js/horarios.js"></script>
+</body>
+</html>

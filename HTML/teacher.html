@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Asistencia - Profesores</title>
+    <link rel="stylesheet" href="src/styles/teacher.css">
+</head>
+<body>
+    <header class="top-bar">
+        <div class="container">
+            <div class="header-top">
+                <h1>Sistema de Gestión de Asistencia</h1>
+                <div id="currentDateTime" class="datetime"></div>
+            </div>
+            <nav>
+                <button id="btnDashboard" class="active">Dashboard</button>
+                <button id="btnAsistencia">Registro Asistencia</button>
+                <button id="btnReportes">Reportes</button>
+                <button id="btnPerfil">Mi Perfil</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Sección Dashboard -->
+        <section id="dashboard" class="active-section">
+            <h2>Resumen General</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Asistencia General</h3>
+                    <div class="circular-progress" data-percent="85">
+                        <svg class="progress-circle" width="120" height="120">
+                            <circle class="progress-circle-bg" cx="60" cy="60" r="54"/>
+                            <circle class="progress-circle-fill" cx="60" cy="60" r="54"/>
+                        </svg>
+                        <div class="progress-text">85%</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Asistencia por Materia</h3>
+                    <canvas id="materiaChart"></canvas>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Últimas Asistencias</h3>
+                    <ul class="last-attendances">
+                        <li>Juan Pérez - Matemáticas - 10/06/2025 08:15</li>
+                        <li>María Gómez - Ciencias - 10/06/2025 09:30</li>
+                        <li>Carlos Ruiz - Historia - 09/06/2025 14:00</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="full-width-card">
+                <h3>Asistencia Mensual</h3>
+                <canvas id="monthlyChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Sección Registro de Asistencia -->
+        <section id="asistencia" class="hidden-section">
+            <h2>Registro de Asistencia</h2>
+            
+            <div class="form-group">
+                <label for="selectMateria">Materia:</label>
+                <select id="selectMateria">
+                    <option value="">Seleccione una materia</option>
+                    <option value="matematicas">Matemáticas</option>
+                    <option value="ciencias">Ciencias</option>
+                    <option value="historia">Historia</option>
+                    <option value="literatura">Literatura</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="selectGrupo">Grupo:</label>
+                <select id="selectGrupo">
+                    <option value="">Seleccione un grupo</option>
+                    <option value="grupoA">Grupo A</option>
+                    <option value="grupoB">Grupo B</option>
+                    <option value="grupoC">Grupo C</option>
+                </select>
+            </div>
+            
+            <div class="attendance-table-container">
+                <table class="attendance-table">
+                    <thead>
+                        <tr>
+                            <th>Alumno</th>
+                            <th>Asistencia</th>
+                            <th>Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendanceTableBody">
+                        <!-- Datos se llenarán con JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <button id="btnGuardarAsistencia" class="primary-btn">Guardar Asistencia</button>
+        </section>
+
+        <!-- Sección Reportes -->
+        <section id="reportes" class="hidden-section">
+            <h2>Reportes de Asistencia</h2>
+            
+            <div class="report-filters">
+                <div class="form-group">
+                    <label for="reportMateria">Materia:</label>
+                    <select id="reportMateria">
+                        <option value="todas">Todas las materias</option>
+                        <option value="matematicas">Matemáticas</option>
+                        <option value="ciencias">Ciencias</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reportGrupo">Grupo:</label>
+                    <select id="reportGrupo">
+                        <option value="todos">Todos los grupos</option>
+                        <option value="grupoA">Grupo A</option>
+                        <option value="grupoB">Grupo B</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reportFecha">Rango de fechas:</label>
+                    <input type="date" id="reportFechaInicio" value="2025-01-01">
+                    <span>a</span>
+                    <input type="date" id="reportFechaFin" value="2025-12-31">
+                </div>
+                
+                <button id="btnGenerarReporte" class="primary-btn">Generar Reporte</button>
+            </div>
+            
+            <div class="report-results">
+                <div class="student-attendance-card">
+                    <h3>Asistencia por Alumno</h3>
+                    <canvas id="studentChart"></canvas>
+                </div>
+                
+                <div class="full-width-card">
+                    <h3>Detalle de Asistencias</h3>
+                    <table class="detailed-report-table">
+                        <thead>
+                            <tr>
+                                <th>Alumno</th>
+                                <th>Materia</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Asistencia</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detailedReportBody">
+                            <!-- Datos se llenarán con JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Perfil -->
+        <section id="perfil" class="hidden-section">
+            <h2>Mi Perfil</h2>
+            
+            <div class="profile-container">
+                <div class="profile-info">
+                    <div class="profile-picture">
+                        <img id="profileImage" src="https://via.placeholder.com/150" alt="Foto de perfil">
+                        <input type="file" id="profileImageInput" accept="image/*" style="display: none;">
+                        <button id="btnChangeImage" class="secondary-btn">Cambiar foto</button>
+                    </div>
+                    
+                    <div class="profile-details">
+                        <div class="form-group">
+                            <label for="profileNombre">Nombre:</label>
+                            <input type="text" id="profileNombre" value="Profesor Ejemplo">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="profileEmail">Correo electrónico:</label>
+                            <input type="email" id="profileEmail" value="profesor@escuela.edu">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="profileTelefono">Teléfono:</label>
+                            <input type="tel" id="profileTelefono" value="+1234567890">
+                        </div>
+                        
+                        <button id="btnGuardarPerfil" class="primary-btn">Guardar Cambios</button>
+                    </div>
+                </div>
+                
+                <div class="profile-horario">
+                    <h3>Mi Horario</h3>
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Hora</th>
+                                <th>Lunes</th>
+                                <th>Martes</th>
+                                <th>Miércoles</th>
+                                <th>Jueves</th>
+                                <th>Viernes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>08:00 - 09:00</td>
+                                <td>Matemáticas (Grupo A)</td>
+                                <td></td>
+                                <td>Matemáticas (Grupo A)</td>
+                                <td></td>
+                                <td>Matemáticas (Grupo A)</td>
+                            </tr>
+                            <tr>
+                                <td>09:00 - 10:00</td>
+                                <td></td>
+                                <td>Ciencias (Grupo B)</td>
+                                <td></td>
+                                <td>Ciencias (Grupo B)</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>10:00 - 11:00</td>
+                                <td>Historia (Grupo C)</td>
+                                <td>Matemáticas (Grupo A)</td>
+                                <td>Historia (Grupo C)</td>
+                                <td>Matemáticas (Grupo A)</td>
+                                <td>Historia (Grupo C)</td>
+                            </tr>
+                            <tr>
+                                <td>11:00 - 12:00</td>
+                                <td></td>
+                                <td>Literatura (Grupo B)</td>
+                                <td></td>
+                                <td>Literatura (Grupo B)</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 ISIC 3402 - Sistema de Gestión de Asistencia</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="src/js/teacher.js"></script>
+</body>
+</html>
